@@ -1,0 +1,31 @@
+# Streamlit Secrets (NEVER commit actual API keys or credentials)
+.streamlit/secrets.toml
+
+# Local session caches and data logs
+.streamlit/session_history.json
+.streamlit/test_session_history.json
+session_history.json
+*.json.bak
+
+# Python cache & compiled bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
