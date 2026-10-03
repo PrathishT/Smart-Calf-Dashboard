@@ -396,10 +396,10 @@ def normalize_activity(raw_val):
     if raw_val is None or pd.isna(raw_val):
         return "UNKNOWN"
     val_str = str(raw_val).strip().upper()
-    code_map = {"0": "UNKNOWN", "1": "SITTING", "2": "STANDING", "3": "WALKING", "4": "MOVING"}
+    code_map = {"0": "SITTING", "1": "STANDING", "2": "MOVING", "3": "UNCERTAIN"}
     if val_str in code_map:
         return code_map[val_str]
-    for known in ["SITTING", "STANDING", "WALKING", "MOVING", "UNKNOWN"]:
+    for known in ["SITTING", "STANDING", "MOVING", "UNCERTAIN", "UNKNOWN"]:
         if known in val_str:
             return known
     return val_str if val_str else "UNKNOWN"
