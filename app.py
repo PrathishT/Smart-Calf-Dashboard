@@ -379,6 +379,14 @@ def format_friendly_duration(seconds):
     else:
         return f"{int(seconds)}s"
 
+def convert_to_ist(timestamp):
+    """Convert ThingSpeak UTC timestamp to India Standard Time."""
+    if timestamp is None or pd.isna(timestamp):
+        return None
+
+    dt = pd.to_datetime(timestamp, utc=True)
+    return dt.tz_convert("Asia/Kolkata")
+
 def extract_numeric(val, default=0.0):
     if val is None or pd.isna(val):
         return default
@@ -1186,21 +1194,25 @@ def render_dashboard_content(channel_id, read_api_key, demo_mode, results_count,
 
     # Timestamps
     if isinstance(session_start_raw, pd.Timestamp):
-        session_start_time_str = session_start_raw.strftime("%I:%M %p")
-        session_start_full = session_start_raw.strftime("%Y-%m-%d %H:%M:%S UTC")
+        session_start_ist = convert_to_ist(session_start_raw)
+        session_start_time_str = session_start_ist.strftime("%I:%M %p")
+        session_start_full = session_start_ist.strftime("%Y-%m-%d %I:%M:%S %p IST")
     elif session_start_raw:
-        session_start_time_str = str(session_start_raw)[11:16]
-        session_start_full = str(session_start_raw)[:19]
+        session_start_ist = convert_to_ist(session_start_raw)
+        session_start_time_str = session_start_ist.strftime("%I:%M %p")
+        session_start_full = session_start_ist.strftime("%Y-%m-%d %I:%M:%S %p IST")
     else:
         session_start_time_str = "N/A"
         session_start_full = "Awaiting connection"
 
     if isinstance(last_received_raw, pd.Timestamp):
-        last_received_time_str = last_received_raw.strftime("%I:%M %p")
-        last_received_full = last_received_raw.strftime("%Y-%m-%d %H:%M:%S UTC")
+        last_received_ist = convert_to_ist(last_received_raw)
+        last_received_time_str = last_received_ist.strftime("%I:%M %p")
+        last_received_full = last_received_ist.strftime("%Y-%m-%d %I:%M:%S %p IST")
     elif last_received_raw:
-        last_received_time_str = str(last_received_raw)[11:16]
-        last_received_full = str(last_received_raw)[:19]
+        last_received_ist = convert_to_ist(last_received_raw)
+        last_received_time_str = last_received_ist.strftime("%I:%M %p")
+        last_received_full = last_received_ist.strftime("%Y-%m-%d %I:%M:%S %p IST")
     else:
         last_received_time_str = "N/A"
         last_received_full = "No packets received"
